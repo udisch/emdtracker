@@ -5,6 +5,9 @@
 %   Written By Kooksang Moon for ECE 561 course            % 
 %   Dec. 17th 2002                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% Modified by Udi Schneider, 2010
 
 clear
 close all
@@ -19,22 +22,23 @@ close all
 % w_bg=69;
 % h_bg=85;
 %y_0=[105 164];  % girl cam3
-%y_0=[113 118];  % girl cam8
-%y_0 = [434  450] % girl cam1
+%y_0=[113 118];  % girl cam8 found by emd
+%y_0 = [434  450] % girl cam1 found by emd
 %y_0=[129 576]; % boy
-y_0 = [165 373] % other boy
+%y_0 = [165 373];% other boy
+%y_0 = [152 246] % chinese girl
+y_0 = [95 308] % found by emd
 w_t=33; % 25 31
 h_t=45;
 W=39;
 H=45;
 w_bg=69;
 h_bg=85;
-directory='frames4';
-listfile='list.txt';
-imgfile1='img0000.png';
+directory='frames2b';
+img_name_base='img';
+imgfile1=sprintf('%s%.4d.png',img_name_base,0);
+num_images=102;
 
-
-name1=imgfile1;
 imgfile1=sprintf('%s/%s',directory,imgfile1);
 
 X = imread(imgfile1);
@@ -117,14 +121,13 @@ q_u=q_u/sum_q;
 f_count=1;                        % count the number of frames
 iteration=zeros(1,200);       % record the number of mean shift iteratin for each frame  
 
-fid=fopen(listfile,'r');
 
 h=W*H;
+img_index=0;
 
-while(~feof(fid))
-    imgfile=fgetl(fid);
-    name=imgfile;
-    imgfile=sprintf('%s/%s',directory,imgfile);
+for img_index=0:num_images    
+    img_file = sprintf('%s%.4d.png',img_name_base,img_index);
+    imgfile=sprintf('%s/%s',directory,img_file);
 
     if (imgfile==-1) 
         break;
@@ -200,19 +203,12 @@ while(~feof(fid))
         
         new_X=drawrect(X,x1_t,y1_t,x2_t,y2_t,255);
         new_X=uint8(new_X);
-        %figure
-        %imshow(new_X,[])
+        %figure       
         %close;
-
-        imwrite(new_X,name,'png');
+        
+        imwrite(new_X,img_file,'png');
     end
     f_count=f_count+1;    
 end
 
-fclose(fid);
-
-i=1:f_count;
-figure
-plot(i,iteration(i));
-xlabel('Fram Index')
-ylabel('Mean Shift Interations')
+imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
