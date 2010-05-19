@@ -1,10 +1,11 @@
 clear;
-mov = read_avi('org2b.avi');
+%mov = read_avi('org2b.avi');
 
 %back= median(mov,3);
 back=double(imread('back_target.png'));
-width=25;
-height=31;
+width=33;
+height=45;
+nbins = 10;
 filename = 'img0000.png';
 directory='frames2b';
 
@@ -35,15 +36,20 @@ diff = uint8(diff);
 %box2=im(x1:x2,y1:y2,:);
 box1=imread('box.png');
 
-
+[f1,w1]=imhistrgb(im,nbins);
 dist = ones(m,n)*200;
+
+% obtain foreground pixels
 [vx, vy] = find(diff);
-% calculate EMD distances for box1 over image
+
+% calculate EMD distances for box1 over foreground
  for i=1:size(vx,1)    
      px = vx(i); py = vy(i);
      [x1,y1,x2,y2]=getrect2([py,px],height,width,m,n);     
-     box2=im(x1:x2,y1:y2,:);            
-     dist(px,py)=emdrgb(box1,box2);
+     box2=im(x1:x2,y1:y2,:);
+     [f2,w2]=imhistrgb(box2);
+     [f, fval] = emd(f1, f2, w1, w2, @gdf);
+     dist(px,py)=fval;
  end
 
 [val,cord]=min2d(dist);
