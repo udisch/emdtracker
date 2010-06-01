@@ -1,13 +1,11 @@
 clear;
-%mov = read_avi('org2b.avi');
 
-%back= median(mov,3);
-back=double(imread('back_white.png'));
+back=double(imread('back_black.png'));
 width=33;
 height=45;
 nbins = 10;
 filename = 'img0090.png';
-directory='frames2b';
+directory='frames2';
 
 clear mov;
 
@@ -22,8 +20,6 @@ diff = abs(double(im_gray)-back);
 thresh=max(max(diff))/5;
 diff(diff<thresh)=0;
 diff(diff>=thresh)=1;
-% convert difference mask to int in order to multiply with image
-%diff = uint8(diff); 
 
 % get image with background removed
 %im_filt = zeros(m,n,3);
@@ -32,14 +28,11 @@ diff(diff>=thresh)=1;
 %end
 
 % get box and compare
-%[x1,y1,x2,y2]=getrect([119,133],31,25);
-%box2=im(x1:x2,y1:y2,:);
 box1=imread('box3.png');
 
 dist_matrix = ones(m,n)*200;
 
-% obtain foreground pixels
-%[vx, vy] = find(diff);
+% obtain connected components
 BW = logical(diff);
 s1  = regionprops(BW, 'centroid');
 centroids = cat(1, s1.Centroid);
