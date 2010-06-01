@@ -2,11 +2,11 @@ clear;
 %mov = read_avi('org2b.avi');
 
 %back= median(mov,3);
-back=double(imread('back_target.png'));
+back=double(imread('back_white.png'));
 width=33;
 height=45;
 nbins = 10;
-filename = 'img0100.png';
+filename = 'img0090.png';
 directory='frames2b';
 
 clear mov;
@@ -34,10 +34,9 @@ diff(diff>=thresh)=1;
 % get box and compare
 %[x1,y1,x2,y2]=getrect([119,133],31,25);
 %box2=im(x1:x2,y1:y2,:);
-box1=imread('box.png');
+box1=imread('box3.png');
 
-[f1,w1]=imhistrgb(im,nbins);
-dist = ones(m,n)*200;
+dist_matrix = ones(m,n)*200;
 
 % obtain foreground pixels
 %[vx, vy] = find(diff);
@@ -46,22 +45,25 @@ s1  = regionprops(BW, 'centroid');
 centroids = cat(1, s1.Centroid);
 s2 = regionprops(BW,'area');
 areas = cat(1,s2.Area);
-ind = find(areas>500);
+ind = find(areas>200);
 vx = round(centroids(ind,1));
 vy = round(centroids(ind,2));
   
 % calculate EMD distances for box1 over foreground
  for i=1:size(vx,1)         
      px = vx(i); py = vy(i);     
-     [x1,y1,x2,y2]=getrect2([py,px],height,width,m,n);     
-     box2=im(x1:x2,y1:y2,:);
-     [f2,w2]=imhistrgb(box2);
-     [f, fval] = emd(f1, f2, w1, w2, @gdf);
-     dist(px,py)=fval;
-     
+     [x1,y1,x2,y2]=getrect2([py,px],width,height,m,n);              
+     box2=im(y1:y2,x1:x2,:);      
+     % skip over cropped boxes (edge of screen)     
+     if  (size(box1) == size(box2))
+         val =  emdrgb(box1,box2);
+         dist_matrix(px,py) = val;         
+     end
  end
+% strange bug workaround
+dist_matrix(dist_matrix==0)=200;
 
-[val,cord]=min2d(dist);
+[val,cord]=min2d(dist_matrix);
 
 [x1,y1,x2,y2]=getrect([cord(2),cord(1)],width,height);
 im_r = drawrect(im, x1, y1, x2,y2,255);
@@ -70,5 +72,4 @@ hold on;
 plot(vx,vy,'w*');
 hold on;
 plot(cord(1),cord(2),'r*');
-
 
