@@ -12,6 +12,9 @@
 clear
 close all
 
+% write full tracking images output
+write_output = 0;
+
 % My attempt
 %y_0=[105 164]  % girl
 % y_0=[129 576] % boy
@@ -37,7 +40,7 @@ h_bg=85;
 directory='frames2b';
 img_name_base='img';
 imgfile1=sprintf('%s%.4d.png',img_name_base,0);
-num_images=102;
+num_images=122;
 
 imgfile1=sprintf('%s/%s',directory,imgfile1);
 
@@ -206,9 +209,12 @@ for img_index=0:num_images
         %figure       
         %close;
         
-        imwrite(new_X,img_file,'png');
+        if (write_output)
+            imwrite(new_X,img_file,'png');
+        end
     end
     f_count=f_count+1;    
 end
 
-imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
+%imwrite(new_X,'target.png','png');
+%imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
