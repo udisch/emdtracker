@@ -1,5 +1,5 @@
 
-function [cord] = getInput(img_file, dir, background, outfile, width, height,  area_threshold)
+function [cord] = getInput(img_file, dir, background, outfile, width, height, area_threshold)
 
 back=double(imread('back_white.png'));
 %width=33;
