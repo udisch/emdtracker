@@ -2,9 +2,15 @@
 function [cord] = getInput(img_file, dir, background, outfile, width, height, area_threshold)
 
 back=double(imread('back_white.png'));
-%width=33;
-%height=45;
 
+% keep box dimensions odd
+if (mod(width,2) == 0)
+    width = width-1;
+end
+ if (mod(height,2) == 0)
+    height = height-1;
+ end
+ 
 filename = img_file;
 directory=dir;
 
