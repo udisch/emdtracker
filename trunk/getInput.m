@@ -1,5 +1,5 @@
 
-function [cord] = getInput(img_file, dir, background, width, height,  area_threshold)
+function [cord] = getInput(img_file, dir, background, outfile, width, height,  area_threshold)
 
 back=double(imread('back_white.png'));
 %width=33;
@@ -39,12 +39,12 @@ mouse_y = uint16(m_y);
 
  [x1,y1,x2,y2]=getrect([mouse_x,mouse_y],height,width); 
  box=im(x1:x2,y1:y2,:);
- imwrite(uint8(box),'box.png','png');
+ imwrite(uint8(box),outfile,'png');
 im_r = drawrect(im, y1, x1, y2,x2,255);
+title_string = sprintf('x=%d, y=%d',mouse_y,mouse_x);
 imshow(im_r);
+title(title_string);
 hold on;
 plot(vx,vy,'w*');
-pause;
-close;
 
 cord = ([mouse_x mouse_y]);
