@@ -90,5 +90,3 @@ hold on;
 plot(vx,vy,'w*');
 hold on;
 plot(cord(1),cord(2),'r*');
-% reverse coordinates for tracking
-%cord_ret = [cord(2) cord(1)];
