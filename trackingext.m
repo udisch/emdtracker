@@ -7,15 +7,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-% Modified by Udi Schneider, 2010
-
-clear
-close all
+% Modified by Udi Schneider, 5/2010
+% Computer Vision Workshop, IDC
+function [cord] = trackingext(img_name_base, directory, num_images, y_0, w_t, h_t)
 
 % write full tracking images output
-write_output = 0;
+write_output = 1;
 
-% My attempt
 %y_0=[105 164]  % girl
 % y_0=[129 576] % boy
 % w_t=33;
@@ -30,18 +28,19 @@ write_output = 0;
 %y_0=[129 576]; % boy
 %y_0 = [165 373];% other boy
 %y_0 = [152 246] % chinese girl
-y_0 = [95 308] % found by emd
-w_t=33; % 25 31
-h_t=45;
-W=39;
-H=45;
-w_bg=69;
-h_bg=85;
-directory='frames2b';
-img_name_base='img';
-imgfile1=sprintf('%s%.4d.png',img_name_base,0);
-num_images=122;
+%y_0 = [48   466] % found by emd
+%w_t=33; % 25 31
+%h_t=45;
+%W=39;
+%H=45;
+%w_bg=69;
+%h_bg=85;
+W=w_t+6;
+H=h_t;
+w_bg=w_t+36;
+h_bg=h_t+40;
 
+imgfile1=sprintf('%s%.4d.png',img_name_base,0);
 imgfile1=sprintf('%s/%s',directory,imgfile1);
 
 X = imread(imgfile1);
@@ -88,12 +87,6 @@ for i=1:16
         end
     end
 end
-
-%new_X=drawrect(new_X,x1,y1,x2,y2,255);
-%new_X=uint8(new_X);
-%imshow(new_X,[])
-
-%writepnm(new_X,[],name1);
 
 sum_q=0;
 histo=zeros(16,16,16);
@@ -216,5 +209,6 @@ for img_index=0:num_images
     f_count=f_count+1;    
 end
 
+cord = y_0;
 %imwrite(new_X,'target.png','png');
 %imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
