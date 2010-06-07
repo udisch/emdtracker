@@ -88,9 +88,9 @@ area_thresh = get(handles.areaThreshold,'String');
 filename = char(file_input);
 dirname = char(dir_input);
 backfile = char(back_input);
-box_width = str2num(box_width);
-box_height = str2num(box_height);
-area_thresh = str2num(area_thresh);
+box_width = str2double(box_width);
+box_height = str2double(box_height);
+area_thresh = str2double(area_thresh);
 axes(handles.axes1);
 global inCord;
 inCord = getInput(filename,dirname, backfile, 'box.png',box_width,box_height,  area_thresh);
@@ -110,7 +110,7 @@ dirname = char(dir_input);
 backfile = char(back_input);
 
 area_thresh = get(handles.areaThreshold,'String');
-area_thresh = str2num(area_thresh);
+area_thresh = str2double(area_thresh);
 
 filepath = sprintf('%s/%s',dirname,filename);
 
@@ -227,9 +227,9 @@ box_width = get(handles.boxWidth,'String');
 box_height = get(handles.boxHeight,'String');
 num_frames = get(handles.numInputFrames,'String');
 
-box_width = str2num(box_width);
-box_height = str2num(box_height);
-num_frames = str2num(num_frames);
+box_width = str2double(box_width);
+box_height = str2double(box_height);
+num_frames = str2double(num_frames);
 
 trackingext('img',dirname, num_frames, double([inCord(2) inCord(1)]), box_width, box_height);
 axes(handles.axes1);
@@ -273,9 +273,17 @@ global outCord;
 dir_input = get(handles.targetDir,'String');
 dirname = char(dir_input);
 
-trackingext('img',dirname, 80, double([outCord(2) outCord(1)]), 33, 45);
+box_width = get(handles.boxWidth,'String');
+box_height = get(handles.boxHeight,'String');
+num_frames = get(handles.numInputFrames,'String');
+
+box_width = str2double(box_width);
+box_height = str2double(box_height);
+num_frames = str2double(num_frames);
+
+trackingext('img',dirname, num_frames, double([outCord(2) outCord(1)]), box_width, box_height);
 axes(handles.axes2);
-play_image_strip('img','.',0,80);
+play_image_strip('img','.',0,num_frames);
 
 
 function inputDir_Callback(hObject, eventdata, handles)
@@ -380,15 +388,15 @@ back_input = get(handles.backInputFile,'String');
 dirname = char(dir_input);
 backfile = char(back_input);
 num_frames = get(handles.numInputFrames,'String');
-num_frames = str2num(num_frames);
+num_frames = str2double(num_frames);
 
 box_width = get(handles.boxWidth,'String');
 box_height = get(handles.boxHeight,'String');
 area_thresh = get(handles.areaThreshold,'String');
 
-box_width = str2num(box_width);
-box_height = str2num(box_height);
-area_thresh = str2num(area_thresh);
+box_width = str2double(box_width);
+box_height = str2double(box_height);
+area_thresh = str2double(area_thresh);
 
 last_input_frame=sprintf('%s%.4d.png','img',num_frames);
 axes(handles.axes1);
