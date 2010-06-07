@@ -82,12 +82,13 @@ dist_matrix(dist_matrix==0)=200;
 [val,cord]=min2d(dist_matrix);
 
 [x1,y1,x2,y2]=getrect([cord(2),cord(1)],width,height);
-im_r = drawrect(im, x1, y1, x2,y2,255);
+im_r = drawrect(im, uint16(x1), uint16(y1), uint16(x2),uint16(y2),255);
 imshow(im_r);
-title_string = sprintf('Min EMD value: %f',val);
+title_string = sprintf('x=%d, y=%d, Min EMD value: %f',cord(2),cord(1),val);
 title(title_string);
 hold on;
 plot(vx,vy,'w*');
 hold on;
 plot(cord(1),cord(2),'r*');
-
+% reverse coordinates for tracking
+%cord_ret = [cord(2) cord(1)];
