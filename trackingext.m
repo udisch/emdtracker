@@ -9,7 +9,7 @@
 %
 % Modified by Udi Schneider, 5/2010
 % Computer Vision Workshop, IDC
-function [cord] = trackingext(img_name_base, directory, num_images, y_0, w_t, h_t)
+function [cord] = trackingext(img_name_base, directory, out_dir, num_images, y_0, w_t, h_t)
 
 % write full tracking images output
 write_output = 1;
@@ -41,7 +41,7 @@ w_bg=w_t+36;
 h_bg=h_t+40;
 
 imgfile1=sprintf('%s%.4d.png',img_name_base,0);
-imgfile1=sprintf('%s/%s',directory,imgfile1);
+imgfile1=sprintf('%s%s',directory,imgfile1);
 
 X = imread(imgfile1);
 X=double(X);
@@ -123,7 +123,7 @@ img_index=0;
 
 for img_index=0:num_images    
     img_file = sprintf('%s%.4d.png',img_name_base,img_index);
-    imgfile=sprintf('%s/%s',directory,img_file);
+    imgfile=sprintf('%s%s',directory,img_file);
 
     if (imgfile==-1) 
         break;
@@ -203,7 +203,8 @@ for img_index=0:num_images
         %close;
         
         if (write_output)
-            imwrite(new_X,img_file,'png');
+            outpath = sprintf('%s/%s',out_dir,img_file);
+            imwrite(new_X,outpath,'png');            
         end
     end
     f_count=f_count+1;    
@@ -211,4 +212,4 @@ end
 
 cord = y_0;
 %imwrite(new_X,'target.png','png');
-%imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
+imwrite(uint8(X(y1_t:y2_t,x1_t:x2_t,:)),'box.png','png');
