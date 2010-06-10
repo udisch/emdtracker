@@ -22,7 +22,7 @@ function varargout = emdtracker(varargin)
 
 % Edit the above text to modify the response to help emdtracker
 
-% Last Modified by GUIDE v2.5 08-Jun-2010 00:49:54
+% Last Modified by GUIDE v2.5 09-Jun-2010 07:49:49
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -231,9 +231,9 @@ box_width = str2double(box_width);
 box_height = str2double(box_height);
 num_frames = str2double(num_frames);
 
-trackingext('img',dirname, num_frames, double([inCord(2) inCord(1)]), box_width, box_height);
+trackingext('img',dirname, 'in',num_frames, double([inCord(2) inCord(1)]), box_width, box_height);
 axes(handles.axes1);
-play_image_strip('img','.',0,num_frames);
+play_image_strip('img','in',0,num_frames);
 
 % --- Executes on Load Source Image
 function pushbutton4_Callback(hObject, eventdata, handles)
@@ -275,15 +275,15 @@ dirname = char(dir_input);
 
 box_width = get(handles.boxWidth,'String');
 box_height = get(handles.boxHeight,'String');
-num_frames = get(handles.numInputFrames,'String');
+num_frames = get(handles.numTargetFrames,'String');
 
 box_width = str2double(box_width);
 box_height = str2double(box_height);
 num_frames = str2double(num_frames);
 
-trackingext('img',dirname, num_frames, double([outCord(2) outCord(1)]), box_width, box_height);
+trackingext('img',dirname, 'out', num_frames, double([outCord(2) outCord(1)]), box_width, box_height);
 axes(handles.axes2);
-play_image_strip('img','.',0,num_frames);
+play_image_strip('img','out',0,num_frames);
 
 
 function inputDir_Callback(hObject, eventdata, handles)
@@ -474,18 +474,18 @@ end
 
 
 
-function edit13_Callback(hObject, eventdata, handles)
-% hObject    handle to edit13 (see GCBO)
+function numTargetFrames_Callback(hObject, eventdata, handles)
+% hObject    handle to numTargetFrames (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit13 as text
-%        str2double(get(hObject,'String')) returns contents of edit13 as a double
+% Hints: get(hObject,'String') returns contents of numTargetFrames as text
+%        str2double(get(hObject,'String')) returns contents of numTargetFrames as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit13_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit13 (see GCBO)
+function numTargetFrames_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to numTargetFrames (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -572,3 +572,40 @@ function nbrCheck_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of nbrCheck
+
+
+% --- Executes on input browse button
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[filename,dir,f] = uigetfile('*.*');
+set(handles.inputFile,'String',filename);
+set(handles.inputDir,'String',dir);
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[filename,dir,f] = uigetfile('*.*');
+set(handles.targetFile,'String',filename);
+set(handles.targetDir,'String',dir);
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[filename,dir,f] = uigetfile('*.*');
+set(handles.backInputFile,'String',filename);
+
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[filename,dir,f] = uigetfile('*.*');
+set(handles.backTargetFile,'String',filename);
