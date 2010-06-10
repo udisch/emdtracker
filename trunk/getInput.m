@@ -1,7 +1,7 @@
 
 function [cord] = getInput(img_file, dir, background, outfile, width, height, area_threshold)
 
-back=double(imread('back_white.png'));
+back=double(imread(background));
 
 % keep box dimensions odd
 if (mod(width,2) == 0)
