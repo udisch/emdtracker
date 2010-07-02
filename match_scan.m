@@ -35,7 +35,7 @@ box1=imread(box_file);
 dist_matrix = ones(m,n)*200;
 
 % obtain connected components
-BW = logical(diff);
+BW = bwlabel(logical(diff));
 s1  = regionprops(BW, 'centroid');
 centroids = cat(1, s1.Centroid);
 s2 = regionprops(BW,'area');
