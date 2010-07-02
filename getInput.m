@@ -27,7 +27,7 @@ diff(diff<thresh)=0;
 diff(diff>=thresh)=1;
 
 % obtain foreground pixels
-BW = logical(diff);
+BW = bwlabel(logical(diff));
 s1  = regionprops(BW, 'centroid');
 centroids = cat(1, s1.Centroid);
 s2 = regionprops(BW,'area');
