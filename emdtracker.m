@@ -95,6 +95,8 @@ axes(handles.axes1);
 global inCord;
 inCord = getInput(filename,dirname, backfile, 'box.png',box_width,box_height,  area_thresh);
 
+
+
 % --- Executes on Find Target
 function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
@@ -231,7 +233,8 @@ box_width = str2double(box_width);
 box_height = str2double(box_height);
 num_frames = str2double(num_frames);
 
-trackingext('img',dirname, 'in',num_frames, double([inCord(2) inCord(1)]), box_width, box_height);
+n = trackingext('img',dirname, 'in',num_frames, double([inCord(2) inCord(1)]), box_width, box_height);
+set(handles.numInputFrames,'String',n);
 axes(handles.axes1);
 play_image_strip('img','in',0,num_frames);
 
@@ -281,7 +284,8 @@ box_width = str2double(box_width);
 box_height = str2double(box_height);
 num_frames = str2double(num_frames);
 
-trackingext('img',dirname, 'out', num_frames, double([outCord(2) outCord(1)]), box_width, box_height);
+n = trackingext('img',dirname, 'out', num_frames, double([outCord(2) outCord(1)]), box_width, box_height);
+set(handles.numTargetFrames,'String',n);
 axes(handles.axes2);
 play_image_strip('img','out',0,num_frames);
 
