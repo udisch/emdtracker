@@ -9,32 +9,14 @@
 %
 % Modified by Udi Schneider, 5/2010
 % Computer Vision Workshop, IDC
-function [cord] = trackingext(img_name_base, directory, out_dir, num_images, y_0, w_t, h_t)
+function [num_frames] = trackingext(img_name_base, directory, out_dir, num_images, y_0, w_t, h_t)
 
 % write full tracking images output
 write_output = 1;
+% default value for number of actual frames found
+num_frames = num_images;
 
-%y_0=[105 164]  % girl
-% y_0=[129 576] % boy
-% w_t=33;
-% h_t=41;
-% W=39;
-% H=45;
-% w_bg=69;
-% h_bg=85;
-%y_0=[105 164];  % girl cam3
-%y_0=[113 118];  % girl cam8 found by emd
-%y_0 = [434  450] % girl cam1 found by emd
-%y_0=[129 576]; % boy
-%y_0 = [165 373];% other boy
-%y_0 = [152 246] % chinese girl
-%y_0 = [48   466] % found by emd
-%w_t=33; % 25 31
-%h_t=45;
-%W=39;
-%H=45;
-%w_bg=69;
-%h_bg=85;
+% background region around the target window
 W=w_t+6;
 H=h_t;
 w_bg=w_t+36;
@@ -124,8 +106,11 @@ img_index=0;
 for img_index=0:num_images    
     img_file = sprintf('%s%.4d.png',img_name_base,img_index);
     imgfile=sprintf('%s%s',directory,img_file);
-
-    if (imgfile==-1) 
+	
+    % if reached last frame, because img_index was bigger
+    % than actual number, return correct number of frames
+    if (~exist(imgfile)) 
+        num_frames = img_index-1;
         break;
         
     else
